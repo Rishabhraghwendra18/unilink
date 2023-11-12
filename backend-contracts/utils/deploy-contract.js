@@ -6,9 +6,9 @@
 // global scope, and execute the script.
 const hre = require("hardhat");
 const {deployConfig} = require('../constants.js');
-const {verifyContract} = require('../utils/verify-contract.js');
+const {verifyContract} = require('./verify-contract.js');
 
-async function main() {
+async function deployContract() {
   console.log("Deploying contract....");
   const TokenTransferor = await hre.ethers.getContractFactory("TokenTransferor");
   const tokenTransferor = await TokenTransferor.deploy(deployConfig.sepolia.ROUTER,deployConfig.sepolia.LINK);
@@ -17,17 +17,12 @@ async function main() {
 
   console.log(`TokenTransferor deployed at: `,tokenTransferor.address);
   await tokenTransferor.deployTransaction.wait(5);
-  console.log("Verifying contract....");
-  await verifyContract(tokenTransferor.address,[deployConfig.sepolia.ROUTER,deployConfig.sepolia.LINK])
-  console.log("Verified Contract at: ",tokenTransferor.address);
+//   console.log("Verifying contract....");
+//   await verifyContract(tokenTransferor.address,[deployConfig.sepolia.ROUTER,deployConfig.sepolia.LINK])
+//   console.log("Verified Contract at: ",tokenTransferor.address);
+  return tokenTransferor.address;
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
 module.exports={
-  main
+  deployContract
 }
