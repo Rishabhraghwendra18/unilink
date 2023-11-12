@@ -5,23 +5,18 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 const hre = require("hardhat");
+const {deployConfig} = require('../constants.js');
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  console.log("Deploying contract....");
+  const TokenTransferor = await hre.ethers.getContractFactory("TokenTransferor");
+  const tokenTransferor = await TokenTransferor.deploy(deployConfig.sepolia.ROUTER,deployConfig.sepolia.LINK);
 
-  const lockedAmount = hre.ethers.utils.parseEther("0.001");
+  await tokenTransferor.deployed();
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
-
-  console.log(
-    `Lock with ${ethers.utils.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+  console.log(`TokenTransferor deployed at: `,tokenTransferor.address);
+  console.log("Verifying contract....");
+  // await hre.
 }
 
 // We recommend this pattern to be able to use async/await everywhere
