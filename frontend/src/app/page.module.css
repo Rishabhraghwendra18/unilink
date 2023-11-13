@@ -1,0 +1,62 @@
+.main{
+  height: 700px;
+  display: flex;
+  /* padding-top: 6rem; */
+  height: 100%;
+  /* align-items: center; */
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+}
+.hero_title{
+  font-size: 5.6rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.hero_content{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.gradientCircle{
+  position: absolute;
+  top: 55px;
+    left: 100px;
+}
+.gradientCircleRight{
+  position: absolute;
+  bottom: 110px;
+  right: 0;
+}
+.star33x33{
+  position: absolute;
+  top: 376px;
+  left: 220px;
+}
+.star39x392{
+  position: absolute;
+  top: 196px;
+    right: 352px;
+}
+.star39x39{
+  position: absolute;
+  bottom: 180px;
+    left: 400px;
+}
+.star63x63{
+  position: absolute;
+  bottom: 168px;
+    right: 142px;
+}
+.home_container{
+  position: relative;
+  height: 100%;
+}
+.arrow{
+  position: absolute;
+  top: -70px;
+  height: fit-content;
+  left: 433px;
+}

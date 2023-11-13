@@ -1,0 +1,12 @@
+.circle {
+  width: 31.5rem;
+  height: 31.5rem;
+  flex-shrink: 0;
+  border-radius: 31.5rem;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    #0f2b63 0%,
+    rgba(24, 69, 163, 0) 100%
+  );
+  filter: blur(100px);
+}
