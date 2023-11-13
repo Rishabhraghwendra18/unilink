@@ -16,7 +16,7 @@ async function deployContract() {
   await tokenTransferor.deployed();
 
   console.log(`TokenTransferor deployed at: `,tokenTransferor.address);
-  await tokenTransferor.deployTransaction.wait(5);
+//   await tokenTransferor.deployTransaction.wait(5);
 //   console.log("Verifying contract....");
 //   await verifyContract(tokenTransferor.address,[deployConfig.sepolia.ROUTER,deployConfig.sepolia.LINK])
 //   console.log("Verified Contract at: ",tokenTransferor.address);
