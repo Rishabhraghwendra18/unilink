@@ -2,10 +2,12 @@
 
 import Image from "next/image";
 import styles from "./page.module.css";
+import Avatar from "@mui/material/Avatar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CustomCommonButton from "../components/CustomButton";
 import GradientCircle from "../components/GradientCircle";
 import CssBaseline from "@mui/material/CssBaseline";
+import Card from "../components/Card";
 import star33x33 from "../assets/star33x33.svg";
 import star39x39 from "../assets/star39x39.svg";
 import star63x63 from "../assets/star63x63.svg";
@@ -16,6 +18,8 @@ import arbitrumLogo from "../assets/arbitrum-logo.svg";
 import optimismLogo from "../assets/optimism-logo.svg";
 import bnbLogo from "../assets/bnb-logo.svg";
 import baseLogo from "../assets/base-logo.svg";
+import openingQuoteLogo from "../assets/opening-quote.svg";
+import closingQuoteLogo from "../assets/closing-quote.svg";
 import arrow from "../assets/arrow.svg";
 
 const materialUiTheme = createTheme({
@@ -29,36 +33,36 @@ const materialUiTheme = createTheme({
     fontFamily: ["Outfit", "sans-serif"].join(","),
   },
 });
-const networksList=[
+const networksList = [
   {
-    logo:ethereumLogo,
-    name:"Ethereum"
+    logo: ethereumLogo,
+    name: "Ethereum",
   },
   {
-    logo:polygonLogo,
-    name:"Polygon"
+    logo: polygonLogo,
+    name: "Polygon",
   },
   {
-    logo:avalancheLogo,
-    name:"Avalanche"
+    logo: avalancheLogo,
+    name: "Avalanche",
   },
   {
-    logo:arbitrumLogo,
-    name:"Arbitrum"
+    logo: arbitrumLogo,
+    name: "Arbitrum",
   },
   {
-    logo:optimismLogo,
-    name:"Optimism"
+    logo: optimismLogo,
+    name: "Optimism",
   },
   {
-    logo:bnbLogo,
-    name:"BNB Chain"
+    logo: bnbLogo,
+    name: "BNB Chain",
   },
   {
-    logo:baseLogo,
-    name:"Base"
+    logo: baseLogo,
+    name: "Base",
   },
-]
+];
 export default function Home() {
   return (
     <ThemeProvider theme={materialUiTheme}>
@@ -89,12 +93,60 @@ export default function Home() {
       <div className={styles.supported_networks}>
         <h2 className={styles.supported_networks_title}>Supported Networks</h2>
         <div className={styles.networks_list}>
-          {networksList.map((network,index)=>(
-          <div className={styles.network}>
-            <Image priority src={network.logo} width={73} height={68} className={styles.networkLogo} />
-            <span>{network.name}</span>
-          </div>
+          {networksList.map((network, index) => (
+            <div className={styles.network}>
+              <Image
+                priority
+                src={network.logo}
+                width={73}
+                height={68}
+                className={styles.networkLogo}
+              />
+              <span>{network.name}</span>
+            </div>
           ))}
+        </div>
+      </div>
+
+      <div className={styles.team_section}>
+        <div className={styles.title_div}>
+          <Image
+            priority
+            src={openingQuoteLogo}
+            // width={73}
+            // height={68}
+            // className={styles.networkLogo}
+          />
+          <h2 className={styles.team_section_heading}>Team</h2>
+          <Image
+            priority
+            src={closingQuoteLogo}
+            // width={73}
+            // height={68}
+            // className={styles.networkLogo}
+          />
+        </div>
+        <div className={styles.team_container}>
+        <Card>
+          <Avatar
+            alt="Rishabh Raghwendra"
+            src={"/rishabh-photo.jpeg"}
+            sx={{ width: 100, height: 100 }}
+          />
+          <span className={styles.person_name}>Rishabh Raghwendra</span>
+          <span>Blockchain Developer Freelancer</span>
+
+        </Card>
+        <Card>
+          <Avatar
+            alt="Anubha Kumari"
+            src={"/anubha-photo.jpeg"}
+            sx={{ width: 100, height: 100 }}
+          />
+          <span className={styles.person_name}>Anubha Kumari</span>
+          <span>ReactJS Developer</span>
+
+        </Card>
         </div>
       </div>
     </ThemeProvider>
