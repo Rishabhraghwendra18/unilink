@@ -1,0 +1,46 @@
+.app_container{
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+.app_container >h1{
+    font-size: 2.3rem;
+    margin-top: 2rem;
+}
+.transfer_container{
+    height: 35rem;
+    width: 30rem;
+    border-radius: 0.68rem;
+    border: 2px solid #C23893;
+    background-color: #162446;
+    padding: 2.2rem 2rem;
+}
+.gradientCircleRight{
+    position: absolute;
+    top: 0px;
+    left: 264px;
+}
+.star39x39{
+    position: absolute;
+        top: 193px;
+        left: 128px;
+}
+.star39x392{
+    position: absolute;
+    bottom: 93px;
+    left: 383px;
+}
+.star33x33{
+    position: absolute;
+    top: 340px;
+    right: 116px;
+}
+.star63x63{
+    position: absolute;
+    bottom: 40px;
+    right: 300px;
+}

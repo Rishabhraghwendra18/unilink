@@ -94,7 +94,7 @@ export default function Home() {
         <h2 className={styles.supported_networks_title}>Supported Networks</h2>
         <div className={styles.networks_list}>
           {networksList.map((network, index) => (
-            <div className={styles.network}>
+            <div className={styles.network} key={index}>
               <Image
                 priority
                 src={network.logo}
