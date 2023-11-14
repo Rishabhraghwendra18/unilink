@@ -12,7 +12,8 @@
     margin-top: 2rem;
 }
 .transfer_container{
-    height: 35rem;
+    max-height: 35rem;
+    height: fit-content;
     width: 30rem;
     border-radius: 0.68rem;
     border: 2px solid #C23893;
@@ -43,4 +44,14 @@
     position: absolute;
     bottom: 40px;
     right: 300px;
+}
+.select_tokens_container{
+    border: 1px solid rgba(128, 128, 128, 0.31);
+    padding: 1.1rem 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.select_tokens_container:last-child{
+    border: none;
 }

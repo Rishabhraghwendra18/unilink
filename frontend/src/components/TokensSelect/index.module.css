@@ -1,0 +1,27 @@
+.tokens_container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    /* border: 2px solid #C23893; */
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid rgba(128, 128, 128, 0.31);
+    /* border-radius: 0.68rem; */
+}
+.amount_input{
+    flex: 0.4;
+}
+.checkbox_token{
+    flex: 0.6;
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+}
+.max_btn{
+    background-color: unset;
+    padding: 4px;
+    color: white;
+    border: 0.8px solid grey;
+    border-radius: 0.6rem;
+    cursor: pointer;
+}

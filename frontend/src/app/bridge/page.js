@@ -6,7 +6,9 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { FormControl } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import CustomDataTable from "../../components/CustomDataGrid";
+import TokensSelect from "../../components/TokensSelect";
 import CustomSelect from "../../components/CustomSelect";
+import CustomCommonButton from "../../components/CustomButton"
 import GradientCircle from "../../components/GradientCircle";
 import {chains} from "../../constants/chain";
 import star39x39 from "../../assets/star39x39.svg";
@@ -37,9 +39,10 @@ const sourceChainColumns = [
     flex: 1,
   },
 ];
-const sourceChainRows = [{ token: "CCIP-BnM", amount: 0 }];
+const sourceChainRows = [{ name: "CCIP-BnM", amount: 0 },{ name: "cCCIP-LnM", amount: 0 }];
 function Bridge() {
   const [selectedSourceChain, setSelectedSourceChain] = useState();
+  const [destinationSourceChain, setDestinationSourceChain] = useState();
   return (
     <ThemeProvider theme={materialUiTheme}>
       <CssBaseline />
@@ -61,10 +64,26 @@ function Bridge() {
               options={chains}
               value={selectedSourceChain}
             />
-            <CustomDataTable
+            <label>Select Tokens</label>
+            {/* <CustomDataTable
               columns={sourceChainColumns}
               rows={selectedSourceChain?.name ? sourceChainRows:[]}
+            /> */}
+            <div className={styles.select_tokens_container}>
+            {selectedSourceChain && sourceChainRows.map((token,index)=>(
+              <TokensSelect key={index} tokenName={token.name} style={index==sourceChainRows.length-1 ? {padding:0,border:'none'}:undefined}/>
+            ))}
+            </div>
+            <CustomSelect
+              isDisable={!selectedSourceChain}
+              placeholder="Destination Chain"
+              id={"destination-chain-select"}
+              labeId={"detaination-chain-select-label"}
+              onChange={(e) => {setDestinationSourceChain(e.target.value)}}
+              options={chains?.filter(chain=>selectedSourceChain?.name !== chain?.name)}
+              value={destinationSourceChain}
             />
+            <CustomCommonButton>Transfer</CustomCommonButton>
           </FormControl>
         </div>
         <Image priority src={star33x33} className={styles.star33x33} />

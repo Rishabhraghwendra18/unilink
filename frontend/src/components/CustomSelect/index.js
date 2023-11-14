@@ -1,15 +1,18 @@
-import { MenuItem, FormControl, Select,InputLabel } from "@mui/material";
+import { MenuItem, Select,InputLabel } from "@mui/material";
+import styles from './index.module.css';
 
-function CustomSelect({placeholder,labeId,id,onChange=()=>{},options=[],value}) {
+function CustomSelect({placeholder,labeId,id,onChange=()=>{},options=[],value,isDisable}) {
   return (
-    <>
+    <div className={styles.customSelect}>
       <InputLabel id={id}>{placeholder}</InputLabel>
       <Select
+        disabled={isDisable}
         labelId={labeId}
-        id="demo-simple-select"
+        id={id}
         value={value}
-        label="Source Chain"
+        label={placeholder}
         onChange={onChange}
+        sx={{width:'100%'}}
       >
         {options.map((chain, index) => (
           <MenuItem key={index} value={chain} >
@@ -17,7 +20,7 @@ function CustomSelect({placeholder,labeId,id,onChange=()=>{},options=[],value}) 
           </MenuItem>
         ))}
       </Select>
-    </>
+    </div>
   );
 }
 
