@@ -39,10 +39,32 @@ const sourceChainColumns = [
     flex: 1,
   },
 ];
-const sourceChainRows = [{ name: "CCIP-BnM", amount: 0 },{ name: "cCCIP-LnM", amount: 0 }];
+
 function Bridge() {
   const [selectedSourceChain, setSelectedSourceChain] = useState();
   const [destinationSourceChain, setDestinationSourceChain] = useState();
+  const [tokensList, setTokensList] = useState([{ name: "CCIP-BnM", amount: 0,maxAmount:1.23,isSelected:false },{ name: "cCCIP-LnM", amount: 0,maxAmount:1.23,isSelected:false }]);
+
+  const onTokenSelect = (tokenName,isChecked)=>{
+    let tokens=[...tokensList];
+    tokens=tokens.map(token=>{
+      if(token.name === tokenName){
+        return {...token,isSelected:isChecked}
+      }
+      return token;
+    })
+    setTokensList(tokens);
+  }
+  const onTokenAmountChange = (tokenName,amount)=>{
+    let tokens=[...tokensList];
+    tokens=tokens.map(token=>{
+      if(token.name === tokenName){
+        return {...token,amount}
+      }
+      return token;
+    })
+    setTokensList(tokens);
+  }
   return (
     <ThemeProvider theme={materialUiTheme}>
       <CssBaseline />
@@ -65,13 +87,9 @@ function Bridge() {
               value={selectedSourceChain}
             />
             <label>Select Tokens</label>
-            {/* <CustomDataTable
-              columns={sourceChainColumns}
-              rows={selectedSourceChain?.name ? sourceChainRows:[]}
-            /> */}
             <div className={styles.select_tokens_container}>
-            {selectedSourceChain && sourceChainRows.map((token,index)=>(
-              <TokensSelect key={index} tokenName={token.name} style={index==sourceChainRows.length-1 ? {padding:0,border:'none'}:undefined}/>
+            {selectedSourceChain && tokensList.map((token,index)=>(
+              <TokensSelect key={index} token={token} style={index==tokensList.length-1 ? {padding:0,border:'none'}:undefined} onSelect={onTokenSelect} onChange={onTokenAmountChange}/>
             ))}
             </div>
             <CustomSelect
