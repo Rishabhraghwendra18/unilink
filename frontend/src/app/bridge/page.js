@@ -9,6 +9,7 @@ import CustomDataTable from "../../components/CustomDataGrid";
 import TokensSelect from "../../components/TokensSelect";
 import CustomSelect from "../../components/CustomSelect";
 import CustomCommonButton from "../../components/CustomButton"
+import ConfirmationModal from "../../components/ConfirmationModal"; 
 import GradientCircle from "../../components/GradientCircle";
 import {chains} from "../../constants/chain";
 import star39x39 from "../../assets/star39x39.svg";
@@ -44,6 +45,7 @@ function Bridge() {
   const [selectedSourceChain, setSelectedSourceChain] = useState();
   const [destinationSourceChain, setDestinationSourceChain] = useState();
   const [tokensList, setTokensList] = useState([{ name: "CCIP-BnM", amount: 0,maxAmount:1.23,isSelected:false },{ name: "cCCIP-LnM", amount: 0,maxAmount:1.23,isSelected:false }]);
+  const [isTranscationModaOpen, setIsTranscationModaOpen] = useState(false);
 
   const onTokenSelect = (tokenName,isChecked)=>{
     let tokens=[...tokensList];
@@ -101,11 +103,12 @@ function Bridge() {
               options={chains?.filter(chain=>selectedSourceChain?.name !== chain?.name)}
               value={destinationSourceChain}
             />
-            <CustomCommonButton>Transfer</CustomCommonButton>
+            <CustomCommonButton onClick={()=>setIsTranscationModaOpen(true)}>Transfer</CustomCommonButton>
           </FormControl>
         </div>
         <Image priority src={star33x33} className={styles.star33x33} />
         <Image priority src={star63x63} className={styles.star63x63} />
+        {isTranscationModaOpen && <ConfirmationModal open={isTranscationModaOpen} setOpen={setIsTranscationModaOpen} fromNetwork={selectedSourceChain.name} toNetwork={destinationSourceChain.name}/>}
       </div>
     </ThemeProvider>
   );
