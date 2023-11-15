@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from 'next/navigation'
 import styles from "./page.module.css";
 import Avatar from "@mui/material/Avatar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -64,6 +65,7 @@ const networksList = [
   },
 ];
 export default function Home() {
+  const { push } = useRouter();
   return (
     <ThemeProvider theme={materialUiTheme}>
       <CssBaseline />
@@ -78,6 +80,7 @@ export default function Home() {
             </h1>
             <CustomCommonButton
               sx={{ width: "13rem", height: "4rem", fontSize: "1.3rem" }}
+              onClick={()=>push("/bridge")}
             >
               Enter App
             </CustomCommonButton>
