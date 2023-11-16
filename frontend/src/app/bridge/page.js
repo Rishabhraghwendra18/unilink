@@ -5,7 +5,6 @@ import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { FormControl } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import CustomDataTable from "../../components/CustomDataGrid";
 import TokensSelect from "../../components/TokensSelect";
 import CustomSelect from "../../components/CustomSelect";
 import CustomCommonButton from "../../components/CustomButton"
@@ -29,12 +28,10 @@ const materialUiTheme = createTheme({
   },
 });
 
-
 function Bridge() {
   const [selectedSourceChain, setSelectedSourceChain] = useState();
   const [destinationSourceChain, setDestinationSourceChain] = useState();
   const [tokensList, setTokensList] = useState([{ name: "CCIP-BnM", amount: 0,maxAmount:1.23,isSelected:false },{ name: "cCCIP-LnM", amount: 0,maxAmount:1.23,isSelected:false }]);
-  const [selectedTokensList, setSelectedTokensList] = useState([]);
   const [isTranscationModaOpen, setIsTranscationModaOpen] = useState(false);
 
   const onTokenSelect = (tokenName,isChecked)=>{

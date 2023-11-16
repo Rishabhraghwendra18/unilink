@@ -2,9 +2,33 @@
 
 import styles from "./index.module.css";
 import { usePathname,useRouter } from 'next/navigation'
+import {walletConnectChain} from "../../constants/chain";
+import { useWeb3Modal } from '@web3modal/ethers5/react'
+import { createWeb3Modal, defaultConfig } from '@web3modal/ethers5/react'
 import Link from 'next/link';
 import CustomButton from "../CustomButton";
+
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
+const walletConnectMetaData = {
+  name: 'UniLink',
+  description: 'One stop to bridge all your cryptos in single click',
+  url: 'https://mywebsite.com',
+  icons: ['https://avatars.mywebsite.com/']
+}
+createWeb3Modal({
+  ethersConfig: defaultConfig({ 
+    walletConnectMetaData,
+    defaultChainId: 80001,
+    enableEIP6963: true,
+    enableInjected: true,
+    enableCoinbase: true,
+  }),
+  chains: [walletConnectChain.mumbai],
+  projectId
+});
+
 function Navbar() {
+  const { open } = useWeb3Modal()
   const pathname = usePathname();
   const { push } = useRouter();
   const onNavbarButtonClick=()=>{
@@ -12,7 +36,7 @@ function Navbar() {
       push('/bridge');
       return;
     }
-
+    open();
   }
   return (
     <nav className={styles.navbar}>
