@@ -170,8 +170,8 @@ contract TokenTransferor is OwnerIsCreator {
         }
 
         // Get the fee required to send the message
-        console.log("evm2AnyMessages length is: ");
-        console.log(evm2AnyMessages.length);
+        // console.log("evm2AnyMessages length is: ");
+        // console.log(evm2AnyMessages.length);
         uint256 fees = 0;
         for (uint256 i = 0; i < evm2AnyMessages.length; i++) {
             fees += s_router.getFee(
