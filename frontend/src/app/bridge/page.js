@@ -29,22 +29,12 @@ const materialUiTheme = createTheme({
   },
 });
 
-const sourceChain = ["Mumbai", "Ethereum", "Avalanche"];
-const sourceChainColumns = [
-  { field: "token", headerName: "Token Name", sortable: false, flex: 1 },
-  {
-    field: "amount",
-    headerName: "Amount",
-    type: "number",
-    editable: true,
-    flex: 1,
-  },
-];
 
 function Bridge() {
   const [selectedSourceChain, setSelectedSourceChain] = useState();
   const [destinationSourceChain, setDestinationSourceChain] = useState();
   const [tokensList, setTokensList] = useState([{ name: "CCIP-BnM", amount: 0,maxAmount:1.23,isSelected:false },{ name: "cCCIP-LnM", amount: 0,maxAmount:1.23,isSelected:false }]);
+  const [selectedTokensList, setSelectedTokensList] = useState([]);
   const [isTranscationModaOpen, setIsTranscationModaOpen] = useState(false);
 
   const onTokenSelect = (tokenName,isChecked)=>{
@@ -108,7 +98,7 @@ function Bridge() {
         </div>
         <Image priority src={star33x33} className={styles.star33x33} />
         <Image priority src={star63x63} className={styles.star63x63} />
-        {isTranscationModaOpen && <ConfirmationModal open={isTranscationModaOpen} setOpen={setIsTranscationModaOpen} fromNetwork={selectedSourceChain.name} toNetwork={destinationSourceChain.name}/>}
+        {isTranscationModaOpen && <ConfirmationModal open={isTranscationModaOpen} setOpen={setIsTranscationModaOpen} fromNetwork={selectedSourceChain?.name} toNetwork={destinationSourceChain?.name} selectedTokens={tokensList}/>}
       </div>
     </ThemeProvider>
   );
