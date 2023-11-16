@@ -3,7 +3,7 @@
 import styles from "./index.module.css";
 import { usePathname,useRouter } from 'next/navigation'
 import {walletConnectChain} from "../../constants/chain";
-import { useWeb3Modal } from '@web3modal/ethers5/react'
+import { useWeb3Modal,useWeb3ModalAccount,useDisconnect } from '@web3modal/ethers5/react'
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers5/react'
 import Link from 'next/link';
 import CustomButton from "../CustomButton";
@@ -29,6 +29,8 @@ createWeb3Modal({
 
 function Navbar() {
   const { open } = useWeb3Modal()
+  const { disconnect } = useDisconnect()
+  const { address } = useWeb3ModalAccount();
   const pathname = usePathname();
   const { push } = useRouter();
   const onNavbarButtonClick=()=>{
@@ -54,7 +56,7 @@ function Navbar() {
           <span className={styles.unactive_link}>Team</span>
         </div>
         <div>
-          <CustomButton onClick={onNavbarButtonClick}>{pathname === "/"?"Enter App":"Connect Wallet"}</CustomButton>
+          {address?<CustomButton onClick={()=>disconnect()}>{address?.slice(0,4)+'....'+address?.slice(-5)}</CustomButton>:<CustomButton onClick={onNavbarButtonClick}>{pathname === "/"?"Enter App":"Connect Wallet"}</CustomButton>}
         </div>
       </div>
     </nav>

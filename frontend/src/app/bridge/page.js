@@ -1,10 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useWeb3ModalAccount } from '@web3modal/ethers5/react'
 import { FormControl } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import LINKSepoliaABI from "../../ABI/LINKSepolia.json";
+import LINKMumbaiABI from "../../ABI/LINKMumbai.json";
+import {readContractBalance} from "../../utils/readContract";
 import TokensSelect from "../../components/TokensSelect";
 import CustomSelect from "../../components/CustomSelect";
 import CustomCommonButton from "../../components/CustomButton"
@@ -29,6 +33,12 @@ const materialUiTheme = createTheme({
 });
 
 function Bridge() {
+  const { address } = useWeb3ModalAccount();
+  useEffect(()=>{
+    if(address){
+      console.log("LINK balance: ",readContractBalance('0x779877A7B0D9E8603169DdbD7836e478b4624789',LINKSepoliaABI,address))
+    }
+  },[address])
   const [selectedSourceChain, setSelectedSourceChain] = useState();
   const [destinationSourceChain, setDestinationSourceChain] = useState();
   const [tokensList, setTokensList] = useState([{ name: "CCIP-BnM", amount: 0,maxAmount:1.23,isSelected:false },{ name: "cCCIP-LnM", amount: 0,maxAmount:1.23,isSelected:false }]);
