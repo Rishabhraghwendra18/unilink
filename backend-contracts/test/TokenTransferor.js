@@ -42,8 +42,9 @@ describe("TokenTransferor",function () {
         const [owner]=await ethers.getSigners();
         const transferTokens =[tokens[0].address];
         const amounts=[1000000000000000];
-        const transcationRecipt = await tokenTransferor.getTotalTranscationFees(deployConfig.fuji.CHAIN_SELECTOR,owner.address,transferTokens,amounts);
-        // const transcationRecipt=await tokenTransferor.transferTokensPayNative(deployConfig.fuji.CHAIN_SELECTOR,owner.address,transferTokens,amounts,{value:ethers.utils.parseEther("0.02")});
-        console.log("Transcation Hash: ",ethers.utils.formatEther(transcationRecipt));
+        const transcationCost = await tokenTransferor.getTotalTranscationFees(deployConfig.fuji.CHAIN_SELECTOR,owner.address,transferTokens,amounts);
+        console.log("Transcation Cost: ",ethers.utils.formatEther(transcationCost));
+        const transcationRecipt=await tokenTransferor.transferTokensPayNative(deployConfig.fuji.CHAIN_SELECTOR,owner.address,transferTokens,amounts,{value:transcationCost});
+        console.log("Transcation Cost and Hash: ",transcationRecipt.transcationHash);
     });
 })

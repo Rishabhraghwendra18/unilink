@@ -22,11 +22,11 @@ contract TokenTransferor is OwnerIsCreator {
     error DestinationChainNotAllowlisted(uint64 destinationChainSelector); // Used when the destination chain has not been allowlisted by the contract owner.
     // Event emitted when the tokens are transferred to an account on another chain.
     event TokensTransferred(
-        bytes32 indexed messageId, // The unique ID of the message.
+        bytes32[] indexed messageId, // The unique ID of the message.
         uint64 indexed destinationChainSelector, // The chain selector of the destination chain.
         address receiver, // The address of the receiver on the destination chain.
-        address token, // The token address that was transferred.
-        uint256 tokenAmount, // The token amount that was transferred.
+        address[] tokens, // The token address that was transferred.
+        uint256[] tokenAmounts, // The token amount that was transferred.
         address feeToken, // the token address used to pay CCIP fees.
         uint256 fees // The fees paid for sending the message.
     );
@@ -119,15 +119,15 @@ contract TokenTransferor is OwnerIsCreator {
         );
 
         // Emit an event with message details
-        emit TokensTransferred(
-            messageId,
-            _destinationChainSelector,
-            _receiver,
-            _token,
-            _amount,
-            address(s_linkToken),
-            fees
-        );
+        // emit TokensTransferred(
+        //     messageId,
+        //     _destinationChainSelector,
+        //     _receiver,
+        //     _token,
+        //     _amount,
+        //     address(s_linkToken),
+        //     fees
+        // );
 
         // Return the message ID
         return messageId;
@@ -207,15 +207,15 @@ contract TokenTransferor is OwnerIsCreator {
         }
 
         // Emit an event with message details
-        // emit TokensTransferred(
-        //     messageId,
-        //     _destinationChainSelector,
-        //     _receiver,
-        //     _token,
-        //     _amount,
-        //     address(0),
-        //     fees
-        // );
+        emit TokensTransferred(
+            messageId,
+            _destinationChainSelector,
+            _receiver,
+            _tokens,
+            _amounts,
+            address(0),
+            fees
+        );
 
         // Return the message ID
         return messageId;
