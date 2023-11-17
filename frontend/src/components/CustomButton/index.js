@@ -12,9 +12,9 @@ const CustomButton = styled(Button)(({theme})=>({
     textTransform:'none'
 }));
 
-function CustomCommonButton({children,sx,onClick}) {
+function CustomCommonButton({children,sx,onClick,disable}) {
   return (
-    <CustomButton variant="contained" sx={sx} onClick={onClick}>{children}</CustomButton>
+    <CustomButton variant="contained" sx={sx} onClick={onClick} disabled={disable}>{children}</CustomButton>
   )
 }
 

@@ -1,9 +1,11 @@
 import React,{useState,useEffect} from 'react';
+import { ethers } from 'ethers';
 import { Modal, Box } from "@mui/material";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import TokensPreview from "../TokensPreview";
 import CustomCommonButton from "../CustomButton";
+import {getTokenAmountAfterFee} from "../../utils/getTokenAmountAfterFee";
 import styles from "./index.module.css";
 
 const style = {
@@ -35,12 +37,36 @@ export default function ConfirmationModal({
     type:'success',
     message:"Transcation Done",
   });
-  useEffect(()=>{
+  const [isTokensApproved, setIsTokensApproved] = useState(false);
+  useEffect(()=>{ 
     let onlySelectedTokens=selectedTokens?.filter((token)=>token?.isSelected);
+    onlySelectedTokens=onlySelectedTokens?.map((token)=>({
+      ...token,
+      finalAmount:'Loading...'
+    }))
     setSelectedTokensList(onlySelectedTokens);
-  },[selectedTokens])
+    getTokenRedeemAmount();
+  },[selectedTokens]);
+  const getTokenRedeemAmount = async ()=>{
+    try {
+      let onlySelectedTokens=selectedTokens?.filter((token)=>token?.isSelected);
+      for(let i=0;i<onlySelectedTokens?.length;i++){
+        let finalAmount=await getTokenAmountAfterFee(fromNetwork.ccipAddress,fromNetwork.abi,onlySelectedTokens[i].amount);
+        onlySelectedTokens[i].finalAmount=ethers.utils.formatEther(finalAmount?.toString())
+      }
+      setSelectedTokensList(onlySelectedTokens);
+    } catch (error) {
+      console.log("Error while fetching token amount: ",error);
+      setOpenToaster({
+        open:true,
+        type:"error",
+        message:"Error while fetching token amount"
+      })
+    }
+  }
 
   const onApproveButtonClick = ()=>{
+    
     setOpenToaster(
       {
         open:true,
@@ -72,7 +98,7 @@ export default function ConfirmationModal({
           <div className={styles.details_container}>
             <div className={styles.network_details}>
               <span>
-                From: <b>{fromNetwork}</b>
+                From: <b>{fromNetwork?.name}</b>
               </span>
               <span>
                 To: <b>{toNetwork}</b>
@@ -91,7 +117,7 @@ export default function ConfirmationModal({
           </div>
           <div className={styles.cta_btns}>
           <CustomCommonButton onClick={onApproveButtonClick}>Approve Tokens</CustomCommonButton>
-          <CustomCommonButton>Confirm Transcation</CustomCommonButton>
+          <CustomCommonButton disable={!isTokensApproved}>Confirm Transcation</CustomCommonButton>
           </div>
         </div>
       </Box>

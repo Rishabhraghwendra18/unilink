@@ -16,7 +16,7 @@ import CustomSelect from "../../components/CustomSelect";
 import CustomCommonButton from "../../components/CustomButton"
 import ConfirmationModal from "../../components/ConfirmationModal"; 
 import GradientCircle from "../../components/GradientCircle";
-import {chains} from "../../constants/chain";
+import {networks} from "../../constants/networks";
 import star39x39 from "../../assets/star39x39.svg";
 import star33x33 from "../../assets/star33x33.svg";
 import star63x63 from "../../assets/star63x63.svg";
@@ -36,7 +36,7 @@ const materialUiTheme = createTheme({
 
 function Bridge() {
   const { address } = useWeb3ModalAccount();
-  const [tokensList, setTokensList] = useState([{ name: "CCIP-BnM", amount: 0,maxAmount:1.23,isSelected:false },
+  const [tokensList, setTokensList] = useState([{ name: "CCIP-BnM", amount: 0,maxAmount:1.23,isSelected:false,abi:CCIPBnMMumbaiABI },
   // { name: "cCCIP-LnM", amount: 0,maxAmount:1.23,isSelected:false }
 ]
   );
@@ -48,7 +48,6 @@ function Bridge() {
           let maxAmount=await readContractBalance('0xf1E3A5842EeEF51F2967b3F05D45DD4f4205FF40',CCIPBnMMumbaiABI,address);
           tokens[i].maxAmount=ethers.utils.formatEther(maxAmount?.toString());
         }
-        console.log("Setting tokens: ",tokens);
         setTokensList(tokens);
       }
       fetchTokensAmounts();
@@ -96,7 +95,7 @@ function Bridge() {
               id={"source-chain-select"}
               labeId={"source-chain-select-label"}
               onChange={(e) => {setSelectedSourceChain(e.target.value)}}
-              options={chains}
+              options={networks}
               value={selectedSourceChain}
             />
             <label>Select Tokens</label>
@@ -111,7 +110,7 @@ function Bridge() {
               id={"destination-chain-select"}
               labeId={"detaination-chain-select-label"}
               onChange={(e) => {setDestinationSourceChain(e.target.value)}}
-              options={chains?.filter(chain=>selectedSourceChain?.name !== chain?.name)}
+              options={networks?.filter(chain=>selectedSourceChain?.name !== chain?.name)}
               value={destinationSourceChain}
             />
             <CustomCommonButton onClick={()=>setIsTranscationModaOpen(true)}>Transfer</CustomCommonButton>
@@ -119,7 +118,7 @@ function Bridge() {
         </div>
         <Image priority src={star33x33} className={styles.star33x33} />
         <Image priority src={star63x63} className={styles.star63x63} />
-        {isTranscationModaOpen && <ConfirmationModal open={isTranscationModaOpen} setOpen={setIsTranscationModaOpen} fromNetwork={selectedSourceChain?.name} toNetwork={destinationSourceChain?.name} selectedTokens={tokensList}/>}
+        {isTranscationModaOpen && <ConfirmationModal open={isTranscationModaOpen} setOpen={setIsTranscationModaOpen} fromNetwork={selectedSourceChain} toNetwork={destinationSourceChain?.name} selectedTokens={tokensList}/>}
       </div>
     </ThemeProvider>
   );
