@@ -6,6 +6,7 @@ export const networks = [
     name: "Polygon Mumbai",
     ccipAddress: "0x6237dBe7dfCF7815830DC7207bDb01FE126193a7",
     abi:CCIPMumbaiABI,
+    chainSelector: "12532609583862916517",
     supportedTokens: [
       {
         name: "CCIP-BnM",
@@ -17,6 +18,7 @@ export const networks = [
   {
     name:"Avalanche Fuji",
     ccipAddress:"",
+    chainSelector: "14767482510784806043",
     supportedTokens:[
         {
             name:"CCIP-BnM",

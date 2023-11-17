@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from 'react';
+import { useWeb3ModalAccount } from '@web3modal/ethers5/react'
 import { ethers } from 'ethers';
 import { Modal, Box } from "@mui/material";
 import Snackbar from '@mui/material/Snackbar';
@@ -7,6 +8,8 @@ import TokensPreview from "../TokensPreview";
 import CustomCommonButton from "../CustomButton";
 import {getTokenAmountAfterFee} from "../../utils/getTokenAmountAfterFee";
 import {approveTokens} from "../../utils/approveTokens";
+import {getTranscationFee} from "../../utils/getTranscationFee";
+import {transferTokens} from "../../utils/transferTokens";
 import styles from "./index.module.css";
 
 const style = {
@@ -32,6 +35,7 @@ export default function ConfirmationModal({
   toNetwork,
   selectedTokens,
 }) {
+  const { address } = useWeb3ModalAccount();
   const [selectedTokensList, setSelectedTokensList] = useState([]);
   const [openToaster, setOpenToaster] = useState({
     open:false,
@@ -67,19 +71,22 @@ export default function ConfirmationModal({
   }
 
   const onApproveButtonClick = async ()=>{
+    let contract;
     try {
       for(let i=0;i<selectedTokensList.length;i++){
-        await approveTokens(selectedTokensList[i]?.address,fromNetwork?.ccipAddress,selectedTokensList[i]?.abi,selectedTokensList[i]?.amount);
+        contract = await approveTokens(selectedTokensList[i]?.address,fromNetwork?.ccipAddress,selectedTokensList[i]?.abi,selectedTokensList[i]?.amount);
         console.log("selectedTokensList: ",selectedTokensList);
       }
-      setOpenToaster(
-        {
-          open:true,
-          type:'success',
-          message:"Transcation Done",
-        }
-      );
-      setIsTokensApproved(true);
+      contract.on("Approval",()=>{
+        setOpenToaster(
+          {
+            open:true,
+            type:'success',
+            message:"Tokens Approved!",
+          }
+        );
+        setIsTokensApproved(true);
+      })
     } catch (error) {
       console.log("Error while approving tokens: ",error);
       setOpenToaster(
@@ -87,6 +94,41 @@ export default function ConfirmationModal({
           open:true,
           type:'error',
           message:"Error while approving tokens",
+        }
+      );
+    }
+  }
+  
+  const handleConfirmTranscation = async ()=>{
+    try {
+      let txnParams={
+        destinationChain:toNetwork?.chainSelector,
+        receiver:address,
+        tokens:selectedTokensList?.map(token=>token?.address),
+        amounts:selectedTokensList?.map(token=>ethers.utils.parseUnits(token?.amount,"ether")),
+      }
+      let fees=await getTranscationFee(fromNetwork?.ccipAddress,fromNetwork?.abi,txnParams);
+      txnParams.value=fees;
+      console.log("txn::: ",txnParams,fromNetwork)
+      let contract = await transferTokens(fromNetwork?.ccipAddress,fromNetwork?.abi,txnParams);
+      contract.on('TokensTransferred',(messageId)=>{
+        console.log("Message Id: ",messageId);
+        setOpenToaster(
+          {
+            open:true,
+            type:'info',
+            message:"Tokens Transfer In Progress!",
+          }
+        );
+      })
+      
+    } catch (error) {
+      console.log("Error While Transfering Tokens: ",error);
+      setOpenToaster(
+        {
+          open:true,
+          type:'error',
+          message:"Error While Transfering Tokens",
         }
       );
     }
@@ -117,7 +159,7 @@ export default function ConfirmationModal({
                 From: <b>{fromNetwork?.name}</b>
               </span>
               <span>
-                To: <b>{toNetwork}</b>
+                To: <b>{toNetwork?.name}</b>
               </span>
             </div>
             <div>
@@ -133,7 +175,9 @@ export default function ConfirmationModal({
           </div>
           <div className={styles.cta_btns}>
           <CustomCommonButton onClick={onApproveButtonClick}>Approve Tokens</CustomCommonButton>
-          <CustomCommonButton disable={!isTokensApproved}>Confirm Transcation</CustomCommonButton>
+          <CustomCommonButton 
+          disable={!isTokensApproved}
+           onClick={handleConfirmTranscation}>Confirm Transcation</CustomCommonButton>
           </div>
         </div>
       </Box>

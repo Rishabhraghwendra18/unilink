@@ -118,7 +118,7 @@ function Bridge() {
         </div>
         <Image priority src={star33x33} className={styles.star33x33} />
         <Image priority src={star63x63} className={styles.star63x63} />
-        {isTranscationModaOpen && <ConfirmationModal open={isTranscationModaOpen} setOpen={setIsTranscationModaOpen} fromNetwork={selectedSourceChain} toNetwork={destinationSourceChain?.name} selectedTokens={tokensList}/>}
+        {isTranscationModaOpen && <ConfirmationModal open={isTranscationModaOpen} setOpen={setIsTranscationModaOpen} fromNetwork={selectedSourceChain} toNetwork={destinationSourceChain} selectedTokens={tokensList}/>}
       </div>
     </ThemeProvider>
   );
