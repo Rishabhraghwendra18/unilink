@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import { ethers } from "ethers";
 import { useState,useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useWeb3ModalAccount } from '@web3modal/ethers5/react'
 import { FormControl } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import LINKSepoliaABI from "../../ABI/LINKSepolia.json";
+import CCIPBnMMumbaiABI from "../../ABI/CCIP-BnMMumbai.json";
 import LINKMumbaiABI from "../../ABI/LINKMumbai.json";
 import {readContractBalance} from "../../utils/readContract";
 import TokensSelect from "../../components/TokensSelect";
@@ -34,14 +36,26 @@ const materialUiTheme = createTheme({
 
 function Bridge() {
   const { address } = useWeb3ModalAccount();
+  const [tokensList, setTokensList] = useState([{ name: "CCIP-BnM", amount: 0,maxAmount:1.23,isSelected:false },
+  // { name: "cCCIP-LnM", amount: 0,maxAmount:1.23,isSelected:false }
+]
+  );
   useEffect(()=>{
     if(address){
-      console.log("LINK balance: ",readContractBalance('0x779877A7B0D9E8603169DdbD7836e478b4624789',LINKSepoliaABI,address))
+      async function fetchTokensAmounts(){
+        let tokens=[...tokensList];
+        for(let i=0;i<tokens.length;i++){
+          let maxAmount=await readContractBalance('0xf1E3A5842EeEF51F2967b3F05D45DD4f4205FF40',CCIPBnMMumbaiABI,address);
+          tokens[i].maxAmount=ethers.utils.formatEther(maxAmount?.toString());
+        }
+        console.log("Setting tokens: ",tokens);
+        setTokensList(tokens);
+      }
+      fetchTokensAmounts();
     }
   },[address])
   const [selectedSourceChain, setSelectedSourceChain] = useState();
   const [destinationSourceChain, setDestinationSourceChain] = useState();
-  const [tokensList, setTokensList] = useState([{ name: "CCIP-BnM", amount: 0,maxAmount:1.23,isSelected:false },{ name: "cCCIP-LnM", amount: 0,maxAmount:1.23,isSelected:false }]);
   const [isTranscationModaOpen, setIsTranscationModaOpen] = useState(false);
 
   const onTokenSelect = (tokenName,isChecked)=>{
