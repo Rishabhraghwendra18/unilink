@@ -36,7 +36,7 @@ const materialUiTheme = createTheme({
 
 function Bridge() {
   const { address } = useWeb3ModalAccount();
-  const [tokensList, setTokensList] = useState([{ name: "CCIP-BnM", amount: 0,maxAmount:1.23,isSelected:false,abi:CCIPBnMMumbaiABI },
+  const [tokensList, setTokensList] = useState([{ name: "CCIP-BnM", address:'0xf1E3A5842EeEF51F2967b3F05D45DD4f4205FF40',amount: 0,maxAmount:1.23,isSelected:false,abi:CCIPBnMMumbaiABI },
   // { name: "cCCIP-LnM", amount: 0,maxAmount:1.23,isSelected:false }
 ]
   );

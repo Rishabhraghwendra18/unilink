@@ -6,6 +6,7 @@ import MuiAlert from '@mui/material/Alert';
 import TokensPreview from "../TokensPreview";
 import CustomCommonButton from "../CustomButton";
 import {getTokenAmountAfterFee} from "../../utils/getTokenAmountAfterFee";
+import {approveTokens} from "../../utils/approveTokens";
 import styles from "./index.module.css";
 
 const style = {
@@ -65,15 +66,30 @@ export default function ConfirmationModal({
     }
   }
 
-  const onApproveButtonClick = ()=>{
-    
-    setOpenToaster(
-      {
-        open:true,
-        type:'success',
-        message:"Transcation Done",
+  const onApproveButtonClick = async ()=>{
+    try {
+      for(let i=0;i<selectedTokensList.length;i++){
+        await approveTokens(selectedTokensList[i]?.address,fromNetwork?.ccipAddress,selectedTokensList[i]?.abi,selectedTokensList[i]?.amount);
+        console.log("selectedTokensList: ",selectedTokensList);
       }
-    );
+      setOpenToaster(
+        {
+          open:true,
+          type:'success',
+          message:"Transcation Done",
+        }
+      );
+      setIsTokensApproved(true);
+    } catch (error) {
+      console.log("Error while approving tokens: ",error);
+      setOpenToaster(
+        {
+          open:true,
+          type:'error',
+          message:"Error while approving tokens",
+        }
+      );
+    }
   }
   const handleCloseSnackBar = (_,reason)=>{
     if (reason === 'clickaway') {
