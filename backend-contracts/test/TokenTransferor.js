@@ -28,7 +28,7 @@ describe("TokenTransferor",function () {
     let tokenTransferor;
     this.beforeAll(async ()=>{
       console.log("=======================Before All Function Starts=============================");
-      tokenTransferor= await deployContract();
+      tokenTransferor= await deployContract(6);
         console.log("Approving spend")
         for(let i=0;i<tokens.length;i++){
           await approveTokens(tokens[i].address,tokens[i].ABI,tokenTransferor.address,TOKEN_AMOUNT);

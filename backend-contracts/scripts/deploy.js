@@ -10,15 +10,16 @@ const {verifyContract} = require('../utils/verify-contract.js');
 
 async function main() {
   console.log("Deploying contract....");
+  const fees=6;
   const TokenTransferor = await hre.ethers.getContractFactory("TokenTransferor");
-  const tokenTransferor = await TokenTransferor.deploy(deployConfig.sepolia.ROUTER,deployConfig.sepolia.LINK);
+  const tokenTransferor = await TokenTransferor.deploy(deployConfig.mumbai.ROUTER,deployConfig.mumbai.LINK,fees);
 
   await tokenTransferor.deployed();
 
   console.log(`TokenTransferor deployed at: `,tokenTransferor.address);
   await tokenTransferor.deployTransaction.wait(5);
   console.log("Verifying contract....");
-  await verifyContract(tokenTransferor.address,[deployConfig.sepolia.ROUTER,deployConfig.sepolia.LINK])
+  await verifyContract(tokenTransferor.address,[deployConfig.mumbai.ROUTER,deployConfig.mumbai.LINK,fees])
   console.log("Verified Contract at: ",tokenTransferor.address);
 }
 

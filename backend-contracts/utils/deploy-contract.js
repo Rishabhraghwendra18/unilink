@@ -8,10 +8,10 @@ const hre = require("hardhat");
 const {deployConfig} = require('../constants.js');
 const {verifyContract} = require('./verify-contract.js');
 
-async function deployContract() {
+async function deployContract(fees) {
   console.log("Deploying contract....");
   const TokenTransferor = await hre.ethers.getContractFactory("TokenTransferor");
-  const tokenTransferor = await TokenTransferor.deploy(deployConfig.mumbai.ROUTER,deployConfig.mumbai.LINK);
+  const tokenTransferor = await TokenTransferor.deploy(deployConfig.mumbai.ROUTER,deployConfig.mumbai.LINK,fees);
 
   await tokenTransferor.deployed();
 

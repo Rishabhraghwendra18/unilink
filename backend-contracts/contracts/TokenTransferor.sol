@@ -38,12 +38,15 @@ contract TokenTransferor is OwnerIsCreator {
 
     IERC20 private s_linkToken;
 
+    uint256 public platformFee;
+
     /// @notice Constructor initializes the contract with the router address.
     /// @param _router The address of the router contract.
     /// @param _link The address of the link contract.
-    constructor(address _router, address _link) {
+    constructor(address _router, address _link, uint256 _fees) {
         s_router = IRouterClient(_router);
         s_linkToken = IERC20(_link);
+        platformFee=_fees;
     }
 
     /// @dev Modifier that checks if the chain with the given destinationChainSelector is allowlisted.
@@ -132,6 +135,10 @@ contract TokenTransferor is OwnerIsCreator {
         // Return the message ID
         return messageId;
     }
+    function calculateFee(uint256 _amount) public view returns (uint256) {
+        uint percentageAmount=(_amount*platformFee)/10000;
+        return _amount-percentageAmount;
+    }
 
     /// @notice Transfer tokens to receiver on the destination chain.
     /// @notice Pay in native gas such as ETH on Ethereum or MATIC on Polgon.
@@ -164,7 +171,7 @@ contract TokenTransferor is OwnerIsCreator {
             evm2AnyMessages[i]=_buildCCIPMessage(
             _receiver,
             _tokens[i],
-            _amounts[i],
+            calculateFee(_amounts[i]),
             address(0)
         );
         }
@@ -194,7 +201,7 @@ contract TokenTransferor is OwnerIsCreator {
             );
         }
         for (uint256 i = 0; i < _tokens.length; i++) {
-            IERC20(_tokens[i]).approve(address(s_router), _amounts[i]);
+            IERC20(_tokens[i]).approve(address(s_router), calculateFee(_amounts[i]));
         }
 
         // Send the message through the router and store the returned message ID
