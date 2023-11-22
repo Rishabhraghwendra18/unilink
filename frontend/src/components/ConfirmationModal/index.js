@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from 'react';
+import Link from 'next/link';
 import { useWeb3ModalAccount } from '@web3modal/ethers5/react'
 import { ethers } from 'ethers';
 import { Modal, Box } from "@mui/material";
@@ -10,6 +11,7 @@ import {getTokenAmountAfterFee} from "../../utils/getTokenAmountAfterFee";
 import {approveTokens} from "../../utils/approveTokens";
 import {getTranscationFee} from "../../utils/getTranscationFee";
 import {transferTokens} from "../../utils/transferTokens";
+import {getCCIPMessageId} from "../../service/chainlink-ccip";
 import styles from "./index.module.css";
 
 const style = {
@@ -110,14 +112,14 @@ export default function ConfirmationModal({
       let fees=await getTranscationFee(fromNetwork?.ccipAddress,fromNetwork?.abi,txnParams);
       txnParams.value=fees;
       console.log("txn::: ",txnParams,fromNetwork)
-      let contract = await transferTokens(fromNetwork?.ccipAddress,fromNetwork?.abi,txnParams);
-      contract.on('TokensTransferred',(messageId)=>{
-        console.log("Message Id: ",messageId);
+      let {contract,tx} = await transferTokens(fromNetwork?.ccipAddress,fromNetwork?.abi,txnParams);
+      contract.on('TokensTransferred',async ()=>{
+        await navigator.clipboard.writeText(tx?.hash);
         setOpenToaster(
           {
             open:true,
             type:'info',
-            message:"Tokens Transfer In Progress!",
+            message:<>Transcation ID copied to clipboard. See status at<Link href='https://ccip.chain.link/' target='_blank'>CCIP Explorer</Link></>,
           }
         );
       })
