@@ -73,22 +73,19 @@ export default function ConfirmationModal({
   }
 
   const onApproveButtonClick = async ()=>{
-    let contract;
     try {
       for(let i=0;i<selectedTokensList.length;i++){
-        contract = await approveTokens(selectedTokensList[i]?.address,fromNetwork?.ccipAddress,selectedTokensList[i]?.abi,selectedTokensList[i]?.amount);
+        await approveTokens(selectedTokensList[i]?.address,fromNetwork?.ccipAddress,selectedTokensList[i]?.abi,selectedTokensList[i]?.amount);
         console.log("selectedTokensList: ",selectedTokensList);
       }
-      contract.on("Approval",()=>{
-        setOpenToaster(
-          {
-            open:true,
-            type:'success',
-            message:"Tokens Approved!",
-          }
-        );
-        setIsTokensApproved(true);
-      })
+      setOpenToaster(
+        {
+          open:true,
+          type:'success',
+          message:"Tokens Approved!",
+        }
+      );
+      setIsTokensApproved(true);
     } catch (error) {
       console.log("Error while approving tokens: ",error);
       setOpenToaster(
@@ -111,7 +108,7 @@ export default function ConfirmationModal({
       }
       let fees=await getTranscationFee(fromNetwork?.ccipAddress,fromNetwork?.abi,txnParams);
       txnParams.value=fees;
-      console.log("txn::: ",txnParams,fromNetwork)
+      console.log("txn::: ",txnParams,fromNetwork,fromNetwork)
       let {contract,tx} = await transferTokens(fromNetwork?.ccipAddress,fromNetwork?.abi,txnParams);
       contract.on('TokensTransferred',async ()=>{
         await navigator.clipboard.writeText(tx?.hash);
@@ -119,7 +116,7 @@ export default function ConfirmationModal({
           {
             open:true,
             type:'info',
-            message:<>Transcation ID copied to clipboard. See status at<Link href='https://ccip.chain.link/' target='_blank'>CCIP Explorer</Link></>,
+            message:<>Transcation ID copied to clipboard. See status at<Link href={selectedTokensList.length>0?`https://ccip.chain.link/tx/${tx?.hash}`:'https://ccip.chain.link/'} target='_blank'>CCIP Explorer</Link></>,
           }
         );
       })

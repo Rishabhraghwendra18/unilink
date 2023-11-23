@@ -180,11 +180,14 @@ contract TokenTransferor is OwnerIsCreator {
         // console.log("evm2AnyMessages length is: ");
         // console.log(evm2AnyMessages.length);
         uint256 fees = 0;
+        uint256[] memory tokenTransferFees = new uint256[](_tokens.length);
         for (uint256 i = 0; i < evm2AnyMessages.length; i++) {
-            fees += s_router.getFee(
+            uint256 currentFee=s_router.getFee(
                 _destinationChainSelector,
                 evm2AnyMessages[i]
             );
+            fees += currentFee;
+            tokenTransferFees[i]=currentFee;
         }
 
         if (fees >msg.value){
@@ -207,7 +210,7 @@ contract TokenTransferor is OwnerIsCreator {
         // Send the message through the router and store the returned message ID
         bytes32[] memory messageId = new bytes32[](evm2AnyMessages.length);
         for (uint256 i = 0; i < evm2AnyMessages.length; i++) {
-            messageId[i] = s_router.ccipSend{value: fees}(
+            messageId[i] = s_router.ccipSend{value: tokenTransferFees[i]}(
                 _destinationChainSelector,
                 evm2AnyMessages[i]
             );

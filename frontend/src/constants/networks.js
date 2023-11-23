@@ -4,7 +4,7 @@ import CCIPBnMMumbaiABI from "../ABI/CCIP-BnMMumbai.json";
 export const networks = [
   {
     name: "Polygon Mumbai",
-    ccipAddress: "0x6237dBe7dfCF7815830DC7207bDb01FE126193a7",
+    ccipAddress: process.env.NEXT_PUBLIC_CCIP_ADDRESS_MUMBAI,
     abi:CCIPMumbaiABI,
     chainSelector: "12532609583862916517",
     supportedTokens: [

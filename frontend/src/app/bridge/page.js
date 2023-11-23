@@ -9,6 +9,7 @@ import { FormControl } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import LINKSepoliaABI from "../../ABI/LINKSepolia.json";
 import CCIPBnMMumbaiABI from "../../ABI/CCIP-BnMMumbai.json";
+import CCIPLnMMumbaiABI from "../../ABI/CCIP-LnMMumbai.json";
 import LINKMumbaiABI from "../../ABI/LINKMumbai.json";
 import {readContractBalance} from "../../utils/readContract";
 import TokensSelect from "../../components/TokensSelect";
@@ -37,7 +38,7 @@ const materialUiTheme = createTheme({
 function Bridge() {
   const { address } = useWeb3ModalAccount();
   const [tokensList, setTokensList] = useState([{ name: "CCIP-BnM", address:'0xf1E3A5842EeEF51F2967b3F05D45DD4f4205FF40',amount: 0,maxAmount:1.23,isSelected:false,abi:CCIPBnMMumbaiABI },
-  // { name: "cCCIP-LnM", amount: 0,maxAmount:1.23,isSelected:false }
+  { name: "cCCIP-LnM", address:"0xc1c76a8c5bFDE1Be034bbcD930c668726E7C1987",amount: 0,maxAmount:1.23,isSelected:false,abi:CCIPLnMMumbaiABI }
 ]
   );
   useEffect(()=>{
@@ -45,7 +46,7 @@ function Bridge() {
       async function fetchTokensAmounts(){
         let tokens=[...tokensList];
         for(let i=0;i<tokens.length;i++){
-          let maxAmount=await readContractBalance('0xf1E3A5842EeEF51F2967b3F05D45DD4f4205FF40',CCIPBnMMumbaiABI,address);
+          let maxAmount=await readContractBalance(tokens[i].address,tokens[i].abi,address);
           tokens[i].maxAmount=ethers.utils.formatEther(maxAmount?.toString());
         }
         setTokensList(tokens);
