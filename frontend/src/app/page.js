@@ -137,17 +137,7 @@ export default function Home() {
             sx={{ width: 100, height: 100 }}
           />
           <span className={styles.person_name}>Rishabh Raghwendra</span>
-          <span>Blockchain Developer Freelancer</span>
-
-        </Card>
-        <Card>
-          <Avatar
-            alt="Anubha Kumari"
-            src={"/anubha-photo.jpeg"}
-            sx={{ width: 100, height: 100 }}
-          />
-          <span className={styles.person_name}>Anubha Kumari</span>
-          <span>ReactJS Developer</span>
+          <span>Full Stack Blockchain Developer Freelancer</span>
 
         </Card>
         </div>

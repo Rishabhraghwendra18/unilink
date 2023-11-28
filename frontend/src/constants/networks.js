@@ -3,6 +3,21 @@ import CCIPBnMMumbaiABI from "../ABI/CCIP-BnMMumbai.json";
 
 export const networks = [
   {
+    name:"Ethereum Sepolia",
+    ccipAddress:"",
+    chainSelector: "14767482510784806043",
+    supportedTokens:[
+        {
+            name:"CCIP-BnM",
+        address:"0xD21341536c5cF5EB1bcb58f6723cE26e8D8E90e4",
+        },
+        {
+            name:"CCIP-LnM",
+            address:"0x70F5c5C40b873EA597776DA2C21929A8282A3b35",
+        }
+    ]
+  },
+  {
     name: "Polygon Mumbai",
     ccipAddress: process.env.NEXT_PUBLIC_CCIP_ADDRESS_MUMBAI,
     abi:CCIPMumbaiABI,
@@ -17,6 +32,66 @@ export const networks = [
   },
   {
     name:"Avalanche Fuji",
+    ccipAddress:"",
+    chainSelector: "14767482510784806043",
+    supportedTokens:[
+        {
+            name:"CCIP-BnM",
+        address:"0xD21341536c5cF5EB1bcb58f6723cE26e8D8E90e4",
+        },
+        {
+            name:"CCIP-LnM",
+            address:"0x70F5c5C40b873EA597776DA2C21929A8282A3b35",
+        }
+    ]
+  },
+  {
+    name:"Arbitrum",
+    ccipAddress:"",
+    chainSelector: "14767482510784806043",
+    supportedTokens:[
+        {
+            name:"CCIP-BnM",
+        address:"0xD21341536c5cF5EB1bcb58f6723cE26e8D8E90e4",
+        },
+        {
+            name:"CCIP-LnM",
+            address:"0x70F5c5C40b873EA597776DA2C21929A8282A3b35",
+        }
+    ]
+  },
+  {
+    name:"Optimism",
+    ccipAddress:"",
+    chainSelector: "14767482510784806043",
+    supportedTokens:[
+        {
+            name:"CCIP-BnM",
+        address:"0xD21341536c5cF5EB1bcb58f6723cE26e8D8E90e4",
+        },
+        {
+            name:"CCIP-LnM",
+            address:"0x70F5c5C40b873EA597776DA2C21929A8282A3b35",
+        }
+    ]
+  },
+  {
+    name:"BNB Chain",
+    ccipAddress:"",
+    chainSelector: "14767482510784806043",
+    supportedTokens:[
+        {
+            name:"CCIP-BnM",
+        address:"0xD21341536c5cF5EB1bcb58f6723cE26e8D8E90e4",
+        },
+        {
+            name:"CCIP-LnM",
+            address:"0x70F5c5C40b873EA597776DA2C21929A8282A3b35",
+        }
+    ]
+  },
+  {
+    name:"Base",
     ccipAddress:"",
     chainSelector: "14767482510784806043",
     supportedTokens:[
