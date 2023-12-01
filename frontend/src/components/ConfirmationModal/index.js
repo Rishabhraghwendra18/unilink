@@ -171,6 +171,7 @@ export default function ConfirmationModal({
                 />
               </div>
             </div>
+            <span className={styles.platform_fee}>Platform Fee: 0.006%</span>
           </div>
           <div className={styles.cta_btns}>
           <CustomCommonButton onClick={onApproveButtonClick}>Approve Tokens</CustomCommonButton>
